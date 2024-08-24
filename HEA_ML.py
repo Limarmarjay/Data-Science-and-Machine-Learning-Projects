@@ -17,10 +17,11 @@ import pandas as pd
 pd.set_option("display.max_columns", 200)
 from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split, cross_validate
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
+from sklearn.metrics import mean_squared_error, accuracy_score, classification_report
+from sklearn.compose import ColumnTransformer
 from scipy import stats
 from scipy.stats import norm
 import statsmodels.api as sm
@@ -194,8 +195,75 @@ HEA_data_cat_features["Sythesis_Route"] = label_enc.fit_transform(HEA_data_cat_f
 
 HEA_data_cat_features.tail(20)
 
+# VARIATIONAL AUTO-ENCODING FOR ARTIFICIAL DATA GENERATION TO FILL IN MISSING VALUES IN DATASET
+
+# DIVIDE DATASET INTO X AND y
+#Identifiers = HEA_data[['Alloy_ID', 'Alloy']
+#X = HEA_data.drop(['Alloy_ID'. 'Alloy', 'Phases'], axis = 1)
+#y = HEA_data['Phases']
+
+# CARRY OUT ONE-HOT ENCODING ON CATEGORICAL ATTRIBUTES IN X AND y
+# Step 1: change all categorical features in X to numerical features
+# numeric_features = []
+# categorical_features = []
+# for column in X.columns:
+#   if X[column].dtype in ['int64', 'float64']:
+#       numeric_features.append(column)
+#   elif X[column].dtype == 'object':
+#       categorical_features.append(column)
+# ____________________________________________
+# preprocessor = ColumnTransformer(transformers = [('num', StandardScaler(), numeric_features), ('cat', OneHotEncoder(drop = 'first', sparse = False), categorical_features)])
+# _____________________________________________________________________________________________________________________________________________________________________________
+# Step 2: change y(categorical variable) to numerical encoded variable
+# label_encoder = LabelEncoder()
+# y_encoded_var = label_encoder.fit_transform(y)
+# print(label_encoder.classes_)
+
+# TRAINING and TESTING DATASET SPLIT
+# X_train, X_test, y_train, y_test = train_test_split(X, y_encoded_var, test_size = 0.2, train_size = 0.8, random_state = 42)
+
+# BUILD AND TRAIN LOGISTICS REGRESSION MODEL WITH TRAIN DATA SET, THEN TEST MODEL PERFORMANCE
+#log_reg = LogisticRegression(multi_class = 'multinomial')
+#log_reg.fit(X_train, y_train)  -Fits the model
+#y_pred = log_reg.predict(X_test)  -To make predictions
+# y_pred_original = label_encoder.inverse_transform(y_pred)
+# print(y_pred_original)
+#log_reg.predict_proba(X_test)
+#log_reg.score(X_test, y_test)
+#accuracy = accuracy_score(y_test, y_pred)
 
 
-# Training and Testing Dataset Split
+
+# BUILD RANDOM FOREST MODEL WITH TRAIN DATA SET AND DECISION TREES, THEN TEST MODEL PERFORMANCE
+# rf_classifier = RandomForestClassifier()
+# rf_classifier.fit(X_train, y_train)    -Fits the model
+# y_pred2 = rf_classifier.predict(X_test)  -To make predictions
+# y_pred_original2 = label_encoder.inverse_transform(y_pred2)
+# print(y_pred_original2)
+# rf_classifier.predict_proba(X_test)
+# rf_classifier.score(X_test, y_test)
+# accuracy2 = accuracy_score(y_test, y_pred)
+
+# CLASSIFICATIOM REPORT
+# classification_report(y_test, y_pred)  -Logistic Regression classification report
+# Features = pd.DataFrame(log_reg.feature_importances_index = X.columns)
+
+# classification_report(y_test, y_pred2)  -Random Forest Classification report
+# Features = pd.DataFrame(log_reg.feature_importances_index = X.columns)
+
+
+# USE CROSS VALIDATION TO DETERMINE THE MODEL WITH BEST ACCURACY
+# divide training data into k-number of folds
+# # use some folds to train and others to validate
+
+# Cross Va;idate Logistic Regression Model
+# cross_validate(log_reg, X, y, cv = 5, scoring = 'accuracy', return_train_score = False)
+#                      OR
+# cross_val_score(log_reg, X, y, cv = 5)
+
+# Cross Validate Random Forest Model
+# cross_validate(rf_classifier, X, y, cv = 5, scoring = 'accuracy', return_train_size = False)
+#                     OR
+# cross_val_score(rf_classifier, X, y, cv = 5)
 
 
