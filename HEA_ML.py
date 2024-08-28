@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 pd.set_option("display.max_columns", 200)
-from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, cross_validate
@@ -257,7 +256,7 @@ HEA_data_cat_features.tail(20)
 # divide training data into k-number of folds
 # # use some folds to train and others to validate
 
-# Cross Va;idate Logistic Regression Model
+# Cross Validate Logistic Regression Model
 # cross_validate(log_reg, X, y, cv = 5, scoring = 'accuracy', return_train_score = False)
 #                      OR
 # cross_val_score(log_reg, X, y, cv = 5)
